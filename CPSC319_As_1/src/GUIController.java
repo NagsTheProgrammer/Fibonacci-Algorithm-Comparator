@@ -27,10 +27,44 @@ public class GUIController implements Initializable {
     private LineChart<Double, Double> loopChart;
 
     @FXML
+    private NumberAxis recX, recY, loopX, loopY, matX, matY;
+
+    @FXML
     private Button setChart;
 
 
     public void initialize(URL u, ResourceBundle r) {
+
+        recX.setAutoRanging(false);
+        recX.setLowerBound(0);
+        recX.setUpperBound(100);
+        recX.setTickUnit(10);
+
+        recY.setAutoRanging(false);
+        recY.setLowerBound(0);
+        recY.setUpperBound(10000000);
+        recY.setTickUnit(500000);
+
+        loopX.setAutoRanging(false);
+        loopX.setLowerBound(0);
+        loopX.setUpperBound(100);
+        loopX.setTickUnit(10);
+
+        loopY.setAutoRanging(false);
+        loopY.setLowerBound(0);
+        loopY.setUpperBound(10000000);
+        loopY.setTickUnit(500000);
+
+        matX.setAutoRanging(false);
+        matX.setLowerBound(0);
+        matX.setUpperBound(100);
+        matX.setTickUnit(10);
+
+        matY.setAutoRanging(false);
+        matY.setLowerBound(0);
+        matY.setUpperBound(10000000);
+        matY.setTickUnit(500000);
+
         long timeStart, timeEnd, timeTotal, temp;
         int num = 100;
 

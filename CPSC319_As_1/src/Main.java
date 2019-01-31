@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class Main extends Application{
 
     // Global Variables
-    static double FM[][] = new double[2][2];
+    static long FM[][] = new long[2][2];
 
     @Override
     public void start(Stage primaryStage) throws Exception
@@ -54,27 +54,24 @@ public class Main extends Application{
             }
 
             // running different algorithms
-            long timeStart, timeEnd;
+            long timeStart, timeEnd, val;
             if (fib == 1) {
                 timeStart = System.nanoTime();
-                runRecAlgP(num, arr, 0, 0);
+                val = runRecAlg(num, 0, 0);
                 timeEnd = System.nanoTime();
-                printArr(arr);
-                printTime(timeStart, timeEnd);
+                printVal(num, val, timeStart, timeEnd);
             }
             else if (fib == 2) {
                 timeStart = System.nanoTime();
-                runLoopAlgP(num, arr);
+                val = runLoopAlg(num);
                 timeEnd = System.nanoTime();
-                printArr(arr);
-                printTime(timeStart, timeEnd);
+                printVal(num, val, timeStart, timeEnd);
             }
             else if (fib == 3) {
                 timeStart = System.nanoTime();
-                runMatrixAlgP(num, arr);
+                val = Fibonacci(num);
                 timeEnd = System.nanoTime();
-                printArr(arr);
-                printTime(timeStart, timeEnd);
+                printVal(num, val, timeStart, timeEnd);
             }
             else if (fib == 4){
                 long timeSRec, timeERec, timeSLoop, timeELoop, timeSMat, timeEMat;
@@ -103,6 +100,7 @@ public class Main extends Application{
                 launch(args);
                 cont = false;
             }
+            System.out.println();
         }
     }
 
@@ -198,124 +196,78 @@ public class Main extends Application{
     }
 
     /*
-     * runRecAlg runs the recursive algorithm to produce an Fibonacci array
+     * runRecAlgP runs the recursive algorithm to produce an Fibonacci array with printed values
      *
      * @param num    the number of iterations
      * @param arr[]  the array to set
      * @param temp1  the current value of the recursive formula
      * @param temp2  temp1 in the previous iteration
      */
-    public static void runRecAlg(int num, double arr[], double temp1, double temp2){
+    public static long runRecAlg(int num, long temp1, long temp2){
         if (num == 0)
-            return;
-        if (temp1 == 0) {
-            arr[arr.length-num] = temp1;
+            return temp2;
+        else if (temp1 == 0) {
             temp1 = 1;
         }
         else if (temp1 == 1 && temp2 ==0) {
-            arr[arr.length-num] = temp1;
             temp2 = 1;
         }
         else if (temp1 == 1 && temp2 ==1) {
-            arr[arr.length-num] = temp1;
             temp1 = 2;
         }
         else {
-            double hold = temp1;
-            arr[arr.length-num] = temp1;
+            long hold = temp1;
             temp1 = temp1 + temp2;
             temp2 = hold;
         }
-        runRecAlg(num-1, arr, temp1, temp2);
+        return runRecAlg(num-1, temp1, temp2);
     }
 
     /*
-     * runLoopAlg runs the loop algorithm to produce an Fibonacci array
+     * runLoopAlg runs the loop algorithm to produce an Fibonacci value
      *
      * @param num    the number of iterations
-     * @param arr[]  the array to set
      */
-    public static void runLoopAlg(int num, double arr[]){
-        double temp1 = 1, temp2 = 1, hold;
-        if (num == 0)
-            return;
+    public static long runLoopAlg(int num){
+        long temp1 = 1, temp2 = 1, hold;
 
-        if (num > 0) {
-            arr[0] = 0;
-        }
-        if (num > 1) {
-            arr[1] = 1;
-        }
+        if (num == 0 || num == 1)
+            return 0;
+        else if (num == 2)
+            return 1;
         if (num > 2) {
             for (int z = 2; z < num; z++) {
                 hold = temp1;
-                arr[z] = temp1;
                 temp1 = temp1 + temp2;
                 temp2 = hold;
             }
         }
+        return temp2;
     }
 
     /*
-     * runMatrixAlg runs the matrix exponentiation algorithm to produce an Fibonacci array
+     * Fibonacci returns the value of the Fibonacci sequence corresponding to the argument value
      *
-     * @param num    the number of iterations
-     * @param arr[]  the array to set
+     * @param n  the sequence to which to return a value
+     * @return the value of the Fibonacci sequence at the sequence specified
      */
-    public static void runMatrixAlg(int num, double arr[]){
-        for (int z = 0; z < num; z++) {
-            arr[z] = Fibonacci(z);
-        }
-    }
-
-    /*
-    * printArr prints an array of values
-    *
-    * @param arr    the array to print
-     */
-    public static void printArr(double arr[]){
-        System.out.println("\n\nPrinting sequence:");
-        for (double z = 0; z < arr.length; z++){
-            System.out.println(arr[(int)z]);
-        }
-    }
-
-    /*
-    * printTime prints a formatted version of the nanosecond input
-    *
-    * @param timeStart  time the algorithm started
-    * @param timeEnd    time the algorithm ended
-     */
-    public static void printTime(long timeStart, long timeEnd){
-        long timeTotal = timeEnd - timeStart;
-        double secondsDub = (double)timeTotal;
-        double seconds = secondsDub / (Math.pow(10,9));
-        System.out.printf("\nTime to run algorithm: %d nanoseconds / %.8f seconds\n", timeTotal, seconds);
-    }
-
-    /*
-    * Fibonacci returns the value of the Fibonacci sequence corresponding to the argument value
-    *
-    * @param n  the sequence to which to return a value
-    * @return the value of the Fibonacci sequence at the sequence specified
-     */
-    public static double Fibonacci(int n){
+    public static long Fibonacci(int n){
         if (n == 0)
             return 0;
         else {
-            FM = new double[][]{{1, 1}, {1, 0}};
+            FM = new long[][]{{1, 1}, {1, 0}};
             MatrixPower(n-1, FM);
             return FM[0][0];
         }
     }
 
     /*
-    * MatrixPower produces a matrix to return the Fibonacci sequence value
-    *
-    * @param n  the sequence to which to return a value
-    * @param FM reference to the matrix to which to use as input and as return value
+     * MatrixPower produces a matrix to return the Fibonacci sequence value
+     *
+     * @param n  the sequence to which to return a value
+     * @param FM reference to the matrix to which to use as input and as return value
      */
-    public static void MatrixPower(int n, double FM[][]){
+    public static void MatrixPower(int n, long FM[][]){
         if (n > 1){
             MatrixPower(n/2, FM);
             mult2x2Matrix(FM, FM);
@@ -327,13 +279,13 @@ public class Main extends Application{
     }
 
     /*
-    * mult2x2Matrix overwrites the first matrix argument with the matrix multiplication of both arguments in a 2x2 matrix
-    *
-    * @param matrix1    the first matrix that is multiplied and written to to return
-    * @param matrix2    the second matrix that is multiplied
+     * mult2x2Matrix overwrites the first matrix argument with the matrix multiplication of both arguments in a 2x2 matrix
+     *
+     * @param matrix1    the first matrix that is multiplied and written to to return
+     * @param matrix2    the second matrix that is multiplied
      */
-    public static void mult2x2Matrix(double matrix1[][], double matrix2[][]){
-        double prod[][] = new double[2][2];
+    public static void mult2x2Matrix(long matrix1[][], long matrix2[][]){
+        long prod[][] = new long[2][2];
         for(int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
                 for (int k = 0; k < 2; k++) {
@@ -350,9 +302,9 @@ public class Main extends Application{
      *
      * @param matrix1    the first matrix that is multiplied and written to to return
      */
-    public static void mult2x2Matrix(double matrix1[][]){
-        double prod[][] = new double[2][2];
-        int matrix2[][] = {{1, 1}, {1, 0}};
+    public static void mult2x2Matrix(long matrix1[][]){
+        long prod[][] = new long[2][2];
+        long matrix2[][] = {{1, 1}, {1, 0}};
         for(int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
                 for (int k = 0; k < 2; k++) {
@@ -362,5 +314,39 @@ public class Main extends Application{
         }
         System.arraycopy(prod, 0, matrix1, 0, prod.length);
         //return prod;
+    }
+
+    /*
+    * printArr prints an array of values
+    *
+    * @param arr    the array to print
+     */
+    public static void printArr(double arr[]){
+        System.out.println("\n\nPrinting sequence:");
+        for (double z = 0; z < arr.length; z++){
+            System.out.println(arr[(int)z]);
+        }
+    }
+
+    /*
+     * printVal prints a value
+     *
+     * @param arr    the array to print
+     */
+    public static void printVal(int num, long val, long timeStart, long timeEnd){
+        System.out.printf("\n%d: nanoseconds to compute F%d (%d) with loop alg 2 is: %d\n", num, num, val, timeEnd - timeStart);
+    }
+
+    /*
+    * printTime prints a formatted version of the nanosecond input
+    *
+    * @param timeStart  time the algorithm started
+    * @param timeEnd    time the algorithm ended
+     */
+    public static void printTime(long timeStart, long timeEnd){
+        long timeTotal = timeEnd - timeStart;
+        double secondsDub = (double)timeTotal;
+        double seconds = secondsDub / (Math.pow(10,9));
+        System.out.printf("\nTime to run algorithm: %d nanoseconds / %.8f seconds\n", timeTotal, seconds);
     }
 }

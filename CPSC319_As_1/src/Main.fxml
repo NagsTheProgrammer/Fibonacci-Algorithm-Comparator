@@ -11,26 +11,26 @@
    <children>
       <LineChart fx:id="recChart" layoutX="14.0" layoutY="39.0" prefHeight="359.0" prefWidth="403.0" title="Recursive Algorithm">
         <xAxis>
-          <NumberAxis side="BOTTOM" />
+          <NumberAxis side="BOTTOM" fx:id="recX" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis side="LEFT" fx:id="recY"/>
         </yAxis>
       </LineChart>
       <LineChart fx:id="loopChart" layoutX="399.0" layoutY="39.0" prefHeight="359.0" prefWidth="403.0" title="Loop Algorithm">
          <xAxis>
-            <NumberAxis side="BOTTOM" />
+            <NumberAxis side="BOTTOM" fx:id="loopX"/>
          </xAxis>
          <yAxis>
-            <NumberAxis side="LEFT" />
+            <NumberAxis side="LEFT" fx:id="loopY"/>
          </yAxis>
       </LineChart>
       <LineChart fx:id="matChart" layoutX="783.0" layoutY="39.0" prefHeight="359.0" prefWidth="403.0" title="Matrix Exponentiation Algorithm">
          <xAxis>
-            <NumberAxis side="BOTTOM" />
+            <NumberAxis side="BOTTOM" fx:id="matX" />
          </xAxis>
          <yAxis>
-            <NumberAxis side="LEFT" />
+            <NumberAxis side="LEFT" fx:id="matY" />
          </yAxis>
       </LineChart>
    </children>
