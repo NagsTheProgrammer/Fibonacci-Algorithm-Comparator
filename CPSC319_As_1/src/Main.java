@@ -30,7 +30,7 @@ public class Main extends Application{
 
         while (cont) {
 
-            System.out.println("Please choose the number of sequences you would like to compute or press -1 to quit");
+            System.out.println("Please choose the nth value you would like to compute or press -1 to quit");
             int num = scan.nextInt();
             if (num < -1) {
                 System.out.println("\nYou've entered an invalid number");
@@ -59,19 +59,19 @@ public class Main extends Application{
                 timeStart = System.nanoTime();
                 val = runRecAlg(num, 0, 0);
                 timeEnd = System.nanoTime();
-                printVal(num, val, timeStart, timeEnd);
+                printVal(num, val, timeStart, timeEnd, 1);
             }
             else if (fib == 2) {
                 timeStart = System.nanoTime();
                 val = runLoopAlg(num);
                 timeEnd = System.nanoTime();
-                printVal(num, val, timeStart, timeEnd);
+                printVal(num, val, timeStart, timeEnd, 2);
             }
             else if (fib == 3) {
                 timeStart = System.nanoTime();
                 val = Fibonacci(num);
                 timeEnd = System.nanoTime();
-                printVal(num, val, timeStart, timeEnd);
+                printVal(num, val, timeStart, timeEnd, 3);
             }
             else if (fib == 4){
                 long timeSRec, timeERec, timeSLoop, timeELoop, timeSMat, timeEMat;
@@ -196,7 +196,7 @@ public class Main extends Application{
     }
 
     /*
-     * runRecAlgP runs the recursive algorithm to produce an Fibonacci array with printed values
+     * runRecAlg runs the recursive algorithm to produce an Fibonacci array with printed values
      *
      * @param num    the number of iterations
      * @param arr[]  the array to set
@@ -205,7 +205,7 @@ public class Main extends Application{
      */
     public static long runRecAlg(int num, long temp1, long temp2){
         if (num == 0)
-            return temp2;
+            return temp1;
         else if (temp1 == 0) {
             temp1 = 1;
         }
@@ -221,6 +221,34 @@ public class Main extends Application{
             temp2 = hold;
         }
         return runRecAlg(num-1, temp1, temp2);
+    }
+
+    /*
+     * runRecAlg runs the recursive algorithm to produce an Fibonacci array with printed values
+     *
+     * @param num    the number of iterations
+     * @param arr[]  the array to set
+     * @param temp1  the current value of the recursive formula
+     * @param temp2  temp1 in the previous iteration
+     */
+    public static double runRecAlgD(int num, double temp1, double temp2){
+        if (num == 0)
+            return temp1;
+        else if (temp1 == 0) {
+            temp1 = 1;
+        }
+        else if (temp1 == 1 && temp2 ==0) {
+            temp2 = 1;
+        }
+        else if (temp1 == 1 && temp2 ==1) {
+            temp1 = 2;
+        }
+        else {
+            double hold = temp1;
+            temp1 = temp1 + temp2;
+            temp2 = hold;
+        }
+        return runRecAlgD(num-1, temp1, temp2);
     }
 
     /*
@@ -242,7 +270,7 @@ public class Main extends Application{
                 temp2 = hold;
             }
         }
-        return temp2;
+        return temp1;
     }
 
     /*
@@ -333,8 +361,8 @@ public class Main extends Application{
      *
      * @param arr    the array to print
      */
-    public static void printVal(int num, long val, long timeStart, long timeEnd){
-        System.out.printf("\n%d: nanoseconds to compute F%d (%d) with loop alg 2 is: %d\n", num, num, val, timeEnd - timeStart);
+    public static void printVal(int num, long val, long timeStart, long timeEnd, int alg){
+        System.out.printf("\n%d: nanoseconds to compute F%d (%d) with alg %d is: %d", num, num, val, alg, timeEnd - timeStart);
     }
 
     /*

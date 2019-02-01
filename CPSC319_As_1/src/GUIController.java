@@ -42,30 +42,31 @@ public class GUIController implements Initializable {
 
         recY.setAutoRanging(false);
         recY.setLowerBound(0);
-        recY.setUpperBound(10000000);
-        recY.setTickUnit(500000);
+        recY.setUpperBound(1000);
+        recY.setTickUnit(1000);
 
         loopX.setAutoRanging(false);
         loopX.setLowerBound(0);
-        loopX.setUpperBound(100);
-        loopX.setTickUnit(10);
+        loopX.setUpperBound(200);
+        loopX.setTickUnit(20);
 
         loopY.setAutoRanging(false);
         loopY.setLowerBound(0);
-        loopY.setUpperBound(10000000);
-        loopY.setTickUnit(500000);
+        loopY.setUpperBound(10000);
+        loopY.setTickUnit(1000);
 
         matX.setAutoRanging(false);
         matX.setLowerBound(0);
-        matX.setUpperBound(100);
-        matX.setTickUnit(10);
+        matX.setUpperBound(200);
+        matX.setTickUnit(20);
 
         matY.setAutoRanging(false);
         matY.setLowerBound(0);
-        matY.setUpperBound(10000000);
-        matY.setTickUnit(500000);
+        matY.setUpperBound(10000);
+        matY.setTickUnit(1000);
 
-        long timeStart, timeEnd, timeTotal, temp;
+        long timeStart, timeEnd, timeTotal, temp, val;
+        double dub;
         int num = 100;
 
         System.out.println("Initialize called to run");
@@ -76,22 +77,16 @@ public class GUIController implements Initializable {
 
         for (int x = 0; x < num; x++){
             temp = 0;
-            for(int y = 0; y < 10; y++) {
-                double arr[] = new double[x];
+            for(int y = 0; y < 100; y++) {
                 timeStart = System.nanoTime();
-                Main.runRecAlgP(x, arr, 0, 0);
+                dub = Main.runRecAlgD(x, 0, 0);
                 timeEnd = System.nanoTime();
-                temp += (timeEnd - timeStart);
+                Main.printVal(x, (long) dub, timeStart, timeEnd, 1);
+                temp = temp + (timeEnd - timeStart);
             }
-            timeTotal = temp / 10;
+            timeTotal = temp / 100;
             seriesRecChart.getData().add(new XYChart.Data<>((double) (x), (double) timeTotal));
         }
-
-
-        /*seriesRecChart.getData().add(new XYChart.Data<>(4.0, 29.0));
-        seriesRecChart.getData().add(new XYChart.Data<>(5.0, 23.0));
-        seriesRecChart.getData().add(new XYChart.Data<>(7.0, 25.0));
-        seriesRecChart.getData().add(new XYChart.Data<>(2.0, 28.0));*/
 
         // loopChart
         System.out.println("Initializing Loop Algorithm Chart");
@@ -99,14 +94,13 @@ public class GUIController implements Initializable {
 
         for (int x = 0; x < num; x++) {
             temp = 0;
-            for (int y = 0; y < 10; y++) {
-                double arr[] = new double[x];
+            for (int y = 0; y < 100; y++) {
                 timeStart = System.nanoTime();
-                Main.runLoopAlgP(x, arr);
+                val = Main.runLoopAlg(x);
                 timeEnd = System.nanoTime();
                 temp += (timeEnd - timeStart);
             }
-            timeTotal = temp / 10;
+            timeTotal = temp / 100;
             seriesLoopChart.getData().add(new XYChart.Data<>((double)(x), (double) timeTotal));
         }
 
@@ -116,14 +110,13 @@ public class GUIController implements Initializable {
 
         for (int x = 0; x < num; x++) {
             temp = 0;
-            for (int y = 0; y < 10; y++) {
-                double arr[] = new double[x];
+            for (int y = 0; y < 100; y++) {
                 timeStart = System.nanoTime();
-                Main.runMatrixAlgP(x, arr);
+                val = Main.Fibonacci(x);
                 timeEnd = System.nanoTime();
                 temp += (timeEnd - timeStart);
             }
-            timeTotal = temp / 10;
+            timeTotal = temp / 100;
             seriesMatChart.getData().add(new XYChart.Data<>((double)(x), (double) timeTotal));
         }
 
