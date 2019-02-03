@@ -29,9 +29,6 @@ public class GUIController implements Initializable {
     @FXML
     private NumberAxis recX, recY, loopX, loopY, matX, matY;
 
-    @FXML
-    private Button setChart;
-
 
     public void initialize(URL u, ResourceBundle r) {
 
@@ -80,7 +77,7 @@ public class GUIController implements Initializable {
         System.out.println("Initialize called to run");
 
         // recChart
-        System.out.println("Initializing Recursive Algorithm Chart");
+        //System.out.println("Initializing Recursive Algorithm Chart");
         XYChart.Series<Double, Double> seriesRecChart = new XYChart.Series<>();
 
         for (int x = 0; x < numRec; x++){
@@ -89,7 +86,7 @@ public class GUIController implements Initializable {
                 timeStart = System.nanoTime();
                 val = Main.runRecAlg(x);
                 timeEnd = System.nanoTime();
-                //Main.printVal(x, val, timeStart, timeEnd, 1);
+                Main.printVal(y+x*multRec, x, timeStart, timeEnd, 1);
                 temp = temp + (timeEnd - timeStart);
             }
             timeTotal = temp / multRec;
@@ -97,7 +94,8 @@ public class GUIController implements Initializable {
         }
 
         // loopChart
-        System.out.println("Initializing Loop Algorithm Chart");
+        //System.out.println("Initializing Loop Algorithm Chart");
+        System.out.print("\n");
         XYChart.Series<Double, Double> seriesLoopChart = new XYChart.Series<>();
 
         for (int x = 0; x < numLoop; x++){
@@ -106,7 +104,7 @@ public class GUIController implements Initializable {
                 timeStart = System.nanoTime();
                 dub = Main.runLoopAlg(x);
                 timeEnd = System.nanoTime();
-                Main.printVal(x, (long) dub, timeStart, timeEnd, 2);
+                Main.printVal(y+x*multLoop + numRec*multRec, x, timeStart, timeEnd, 2);
                 temp = temp + (timeEnd - timeStart);
                 dub = 0;
             }
@@ -115,7 +113,8 @@ public class GUIController implements Initializable {
         }
 
         // matChart
-        System.out.println("Initializing Matrix Exponentiation Algorithm Chart");
+        //System.out.println("Initializing Matrix Exponentiation Algorithm Chart");
+        System.out.print("\n");
         XYChart.Series<Double, Double> seriesMatChart = new XYChart.Series<>();
 
         for (int x = 0; x < numMat; x++){
@@ -124,7 +123,7 @@ public class GUIController implements Initializable {
                 timeStart = System.nanoTime();
                 dub = Main.Fibonacci(x);
                 timeEnd = System.nanoTime();
-                Main.printVal(x, (long) dub, timeStart, timeEnd, 3);
+                Main.printVal(y+x*multMat + numRec*multRec + numLoop*multLoop, x, timeStart, timeEnd, 3);
                 temp = temp + (timeEnd - timeStart);
                 dub = 0;
             }
@@ -135,8 +134,5 @@ public class GUIController implements Initializable {
         loopChart.getData().add(seriesLoopChart);
         recChart.getData().add(seriesRecChart);
         matChart.getData().add(seriesMatChart);
-
-
-
     }
 }

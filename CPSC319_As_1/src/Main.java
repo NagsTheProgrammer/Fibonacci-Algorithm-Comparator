@@ -11,6 +11,7 @@ public class Main extends Application{
     // Global Variables
     static double FM[][] = new double[2][2];
 
+    // to run JavaFX graphs
     @Override
     public void start(Stage primaryStage) throws Exception
     {
@@ -28,6 +29,7 @@ public class Main extends Application{
         Scanner scan = new Scanner(System.in);
         boolean cont = true;
 
+        // run continuously as the user wants to run, quit after JavaFX graphs are run
         while (cont) {
 
             System.out.println("Please choose the nth value you would like to compute or press -1 to quit");
@@ -45,73 +47,91 @@ public class Main extends Application{
             // Initializing array arr of length num
             double arr[] = new double[num];
 
-            System.out.println("\nPlease choose which Fibonacci Sequence you would like to run: \n1.) Recursive\n2.) Loop\n3.) Matrix Exponention\n4.) All Programs\n5.) Display Charts for Pre-Determined Sequence Sizes (does not print time for each iteration to system)");
+            System.out.println("\nPlease choose which Fibonacci Sequence you would like to run: \n1.) Recursive\n2.) Loop\n3.) Matrix Exponention\n4.) All Programs (Single Computation)\n5.) All Programs (Run Computation)\n6.) Display Charts for Pre-Determined Sequence Sizes");
             int fib = scan.nextInt();
-            if (fib < 0 || fib > 5) {
+            if (fib < 0 || fib > 6) {
                 System.out.println("\nYou've entered an invalid number");
                 cont = false;
                 break;
             }
 
-            // running different algorithms
+            // running different program sequences
             long timeStart, timeEnd, val = 0;
             double dub;
+            //running algorithm 1
             if (fib == 1) {
                 timeStart = System.nanoTime();
                 val = runRecAlg(num);
                 timeEnd = System.nanoTime();
                 printVal(num, val, timeStart, timeEnd, 1);
             }
+            // running algorithm 2
             else if (fib == 2) {
                 timeStart = System.nanoTime();
                 dub = runLoopAlg(num);
                 timeEnd = System.nanoTime();
                 printVal(num, (long) dub, timeStart, timeEnd, 2);
             }
+            // running algorithm 3
             else if (fib == 3) {
                 timeStart = System.nanoTime();
                 dub = Fibonacci(num);
                 timeEnd = System.nanoTime();
                 printVal(num, (long) dub, timeStart, timeEnd, 3);
             }
+            // running algorithms 1, 2, 3 for a single value output
             else if (fib == 4){
+                // recChart
+                //System.out.print("\n\nInitializing Recursive Algorithm");
+                timeStart = System.nanoTime();
+                val = runRecAlg(num);
+                timeEnd = System.nanoTime();
+                printVal(0, num, timeStart, timeEnd, 1);
+
+                // loopChart
+                //System.out.print("\n\nInitializing Loop Algorithm");
+                System.out.print("\n");
+                timeStart = System.nanoTime();
+                dub = runLoopAlg(num);
+                timeEnd = System.nanoTime();
+                printVal(1, num, timeStart, timeEnd, 2);
+
+                // matChart
+                //System.out.print("\n\nInitializing Matrix Exponentiation Algorithm");
+                System.out.print("\n");
+                timeStart = System.nanoTime();
+                dub = Fibonacci(num);
+                timeEnd = System.nanoTime();
+                printVal(2, num, timeStart, timeEnd, 3);
+            }
+            // running algorithms 1, 2, 3 for sequence value outputs
+            else if (fib == 5){
                 long timeSRec, timeERec, timeSLoop, timeELoop, timeSMat, timeEMat, timeTotal, temp;
-                int numRec, numLoop, numMat, multRec, multLoop, multMat;
-                if (num == 0) {
-                    numRec = 40; numLoop = 100; numMat = 50;
-                    multRec = 1; multLoop = 500; multMat = 1;
-                }
-                else {
-                    numRec = num; numLoop = num; numMat = num;
-                    multRec = 3; multLoop = 3; multMat = 3;
-                }
+                int numRec = num, numLoop = num, numMat = num;
+                int multRec = 1, multLoop = 1, multMat = 1;
 
                 // recChart
-                System.out.print("\n\nInitializing Recursive Algorithm Chart");
-
                 for (int x = 0; x < numRec; x++){
                     temp = 0;
                     for(int y = 0; y < multRec; y++) {
                         timeStart = System.nanoTime();
                         val = Main.runRecAlg(x);
                         timeEnd = System.nanoTime();
-                        //Main.printVal(x, val, timeStart, timeEnd, 1);
+                        printVal(y+x*multRec, x, timeStart, timeEnd, 1);
                         temp = temp + (timeEnd - timeStart);
                     }
                     timeTotal = temp / multRec;
-                    printVal(x, val, 0, timeTotal, 1);
                 }
 
                 // loopChart
-                System.out.print("\n\nInitializing Loop Algorithm Chart");
-
+                System.out.print("\n");
                 for (int x = 0; x < numLoop; x++){
                     temp = 0;
                     for(int y = 0; y < multLoop; y++) {
                         timeStart = System.nanoTime();
                         dub = Main.runLoopAlg(x);
                         timeEnd = System.nanoTime();
-                        Main.printVal(x, (long) dub, timeStart, timeEnd, 2);
+                        printVal(y+x*multLoop + numRec*multRec, x, timeStart, timeEnd, 2);
                         temp = temp + (timeEnd - timeStart);
                         dub = 0;
                     }
@@ -119,15 +139,14 @@ public class Main extends Application{
                 }
 
                 // matChart
-                System.out.print("\n\nInitializing Matrix Exponentiation Algorithm Chart");
-
+                System.out.print("\n");
                 for (int x = 0; x < numMat; x++){
                     temp = 0;
                     for(int y = 0; y < multMat; y++) {
                         timeStart = System.nanoTime();
                         dub = Main.Fibonacci(x);
                         timeEnd = System.nanoTime();
-                        Main.printVal(x, (long) dub, timeStart, timeEnd, 3);
+                        printVal(y+x*multMat + numRec*multRec + numLoop*multLoop, x, timeStart, timeEnd, 3);
                         temp = temp + (timeEnd - timeStart);
                         dub = 0;
                     }
@@ -136,7 +155,8 @@ public class Main extends Application{
 
                 System.out.print("\n");
             }
-            else if (fib == 5){
+            // running JavaFX graphical display
+            else if (fib == 6){
                 launch(args);
                 cont = false;
             }
@@ -148,9 +168,6 @@ public class Main extends Application{
      * runRecAlg runs the recursive algorithm to produce an Fibonacci array with printed values
      *
      * @param num    the number of iterations
-     * @param arr[]  the array to set
-     * @param temp1  the current value of the recursive formula
-     * @param temp2  temp1 in the previous iteration
      */
     public static long runRecAlg(int num){
         if (num == 0)
@@ -253,7 +270,7 @@ public class Main extends Application{
     }
 
     /*
-    * printArr prints an array of values
+    * printArr prints an array of values, used in this program for testing
     *
     * @param arr    the array to print
      */
@@ -270,11 +287,11 @@ public class Main extends Application{
      * @param arr    the array to print
      */
     public static void printVal(int num, long val, long timeStart, long timeEnd, int alg){
-        System.out.printf("\n%d: nanoseconds to compute F%d (%d) with alg %d is: %d", num, num, val, alg, timeEnd - timeStart);
+        System.out.printf("\n%04d: %06d nanoseconds to compute F%04d with alg. %d", num, timeEnd - timeStart, val, alg);
     }
 
     /*
-    * printTime prints a formatted version of the nanosecond input
+    * printTime prints a formatted version of the nanosecond input, used in this program for testing
     *
     * @param timeStart  time the algorithm started
     * @param timeEnd    time the algorithm ended
