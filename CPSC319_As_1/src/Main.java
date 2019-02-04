@@ -13,8 +13,7 @@ public class Main extends Application{
 
     // to run JavaFX graphs
     @Override
-    public void start(Stage primaryStage) throws Exception
-    {
+    public void start(Stage primaryStage) throws Exception {
         System.out.println("Running: Assignment 1 Charts\n");
         FXMLLoader loader = new FXMLLoader();
         Parent root = loader.load(getClass().getResource("Main.fxml"));
@@ -32,6 +31,7 @@ public class Main extends Application{
         // run continuously as the user wants to run, quit after JavaFX graphs are run
         while (cont) {
 
+            // running user input requests
             System.out.println("Please choose the nth value you would like to compute or press -1 to quit");
             int num = scan.nextInt();
             if (num < -1) {
@@ -43,11 +43,7 @@ public class Main extends Application{
                 cont = false;
                 break;
             }
-
-            // Initializing array arr of length num
-            double arr[] = new double[num];
-
-            System.out.println("\nPlease choose which Fibonacci Sequence you would like to run: \n1.) Recursive\n2.) Loop\n3.) Matrix Exponention\n4.) All Programs (Single Computation)\n5.) All Programs (Run Computation)\n6.) Display Charts for Pre-Determined Sequence Sizes");
+            System.out.println("\nPlease choose which Fibonacci algorithm you would like to run: \n1.) Recursive\n2.) Loop\n3.) Matrix Exponentiation\n4.) All Programs (Single Computation)\n5.) All Programs (Run Computation)\n6.) Display Charts for Pre-Determined Sequence Sizes");
             int fib = scan.nextInt();
             if (fib < 0 || fib > 6) {
                 System.out.println("\nYou've entered an invalid number");
@@ -55,8 +51,8 @@ public class Main extends Application{
                 break;
             }
 
-            // running different program sequences
-            long timeStart, timeEnd, val = 0;
+            // running algorithm sequences
+            long timeStart, timeEnd, val;
             double dub;
             //running algorithm 1
             if (fib == 1) {
@@ -82,14 +78,12 @@ public class Main extends Application{
             // running algorithms 1, 2, 3 for a single value output
             else if (fib == 4){
                 // recChart
-                //System.out.print("\n\nInitializing Recursive Algorithm");
                 timeStart = System.nanoTime();
                 val = runRecAlg(num);
                 timeEnd = System.nanoTime();
                 printVal(0, num, timeStart, timeEnd, 1);
 
                 // loopChart
-                //System.out.print("\n\nInitializing Loop Algorithm");
                 System.out.print("\n");
                 timeStart = System.nanoTime();
                 dub = runLoopAlg(num);
@@ -97,7 +91,6 @@ public class Main extends Application{
                 printVal(1, num, timeStart, timeEnd, 2);
 
                 // matChart
-                //System.out.print("\n\nInitializing Matrix Exponentiation Algorithm");
                 System.out.print("\n");
                 timeStart = System.nanoTime();
                 dub = Fibonacci(num);
@@ -106,7 +99,7 @@ public class Main extends Application{
             }
             // running algorithms 1, 2, 3 for sequence value outputs
             else if (fib == 5){
-                long timeSRec, timeERec, timeSLoop, timeELoop, timeSMat, timeEMat, timeTotal, temp;
+                long temp;
                 int numRec = num, numLoop = num, numMat = num;
                 int multRec = 1, multLoop = 1, multMat = 1;
 
@@ -120,7 +113,6 @@ public class Main extends Application{
                         printVal(y+x*multRec, x, timeStart, timeEnd, 1);
                         temp = temp + (timeEnd - timeStart);
                     }
-                    timeTotal = temp / multRec;
                 }
 
                 // loopChart
@@ -135,7 +127,6 @@ public class Main extends Application{
                         temp = temp + (timeEnd - timeStart);
                         dub = 0;
                     }
-                    timeTotal = temp / multLoop;
                 }
 
                 // matChart
@@ -150,24 +141,22 @@ public class Main extends Application{
                         temp = temp + (timeEnd - timeStart);
                         dub = 0;
                     }
-                    timeTotal = temp / multMat;
                 }
-
-                System.out.print("\n");
             }
             // running JavaFX graphical display
             else if (fib == 6){
                 launch(args);
                 cont = false;
             }
-            System.out.println();
+            System.out.print("\n\n");
         }
     }
 
     /*
-     * runRecAlg runs the recursive algorithm to produce an Fibonacci array with printed values
+     * runRecAlg runs the recursive algorithm to produce a Fibonacci value
      *
      * @param num    the number of iterations
+     * @return the long of the Fibonacci sequence at the sequence specified
      */
     public static long runRecAlg(int num){
         if (num == 0)
@@ -179,9 +168,10 @@ public class Main extends Application{
     }
 
     /*
-     * runLoopAlg runs the loop algorithm to produce an Fibonacci value
+     * runLoopAlg runs the loop algorithm to produce a Fibonacci value
      *
      * @param num    the number of iterations
+     * @return the double of the Fibonacci sequence at the sequence specified
      */
     public static double runLoopAlg(int num){
         double temp1 = 1, temp2 = 0, hold;
@@ -198,10 +188,10 @@ public class Main extends Application{
     }
 
     /*
-     * Fibonacci returns the value of the Fibonacci sequence corresponding to the argument value
+     * Fibonacci runs the matrix exponentiation algorithm to produce a Fibonacci value
      *
      * @param n  the sequence to which to return a value
-     * @return the value of the Fibonacci sequence at the sequence specified
+     * @return the double of the Fibonacci sequence at the sequence specified
      */
     public static double Fibonacci(int n){
         if (n == 0)
@@ -233,7 +223,7 @@ public class Main extends Application{
     /*
      * mult2x2Matrix overwrites the first matrix argument with the matrix multiplication of both arguments in a 2x2 matrix
      *
-     * @param matrix1    the first matrix that is multiplied and written to to return
+     * @param matrix1    the first matrix that is multiplied and written to, to return
      * @param matrix2    the second matrix that is multiplied
      */
     public static void mult2x2Matrix(double matrix1[][], double matrix2[][]){
@@ -253,7 +243,7 @@ public class Main extends Application{
     /*
      * mult2x2Matrix overloaded function that multiplies the first matrix argument by the original FM definition
      *
-     * @param matrix1    the first matrix that is multiplied and written to to return
+     * @param matrix1    the first matrix that is multiplied and written to, to return
      */
     public static void mult2x2Matrix(double matrix1[][]){
 
@@ -267,18 +257,6 @@ public class Main extends Application{
         matrix1[1][0] = b;
         matrix1[0][1] = c;
         matrix1[1][1] = d;
-    }
-
-    /*
-    * printArr prints an array of values, used in this program for testing
-    *
-    * @param arr    the array to print
-     */
-    public static void printArr(double arr[]){
-        System.out.println("\n\nPrinting sequence:");
-        for (double z = 0; z < arr.length; z++){
-            System.out.println(arr[(int)z]);
-        }
     }
 
     /*

@@ -1,19 +1,11 @@
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-
-import java.awt.event.ActionEvent;
 import java.lang.*;
-import java.io.*;
 import java.util.*;
 import java.net.*;
-import javafx.collections.*;
 
 public class GUIController implements Initializable {
 
@@ -32,6 +24,7 @@ public class GUIController implements Initializable {
 
     public void initialize(URL u, ResourceBundle r) {
 
+        // set axis ranges and titles for charts
         /*recX.setAutoRanging(false);
         recX.setLowerBound(0);
         recX.setUpperBound(100);
@@ -69,6 +62,7 @@ public class GUIController implements Initializable {
         loopY.setLabel("Duration of Computation (ms)");
         matY.setLabel("Duration of Computation (ms)");
 
+        // set variables for data sets
         long timeStart, timeEnd, timeTotal, temp, val;
         double dub;
         int numRec = 40, numLoop = 1000, numMat = 80;
@@ -77,7 +71,6 @@ public class GUIController implements Initializable {
         System.out.println("Initialize called to run");
 
         // recChart
-        //System.out.println("Initializing Recursive Algorithm Chart");
         XYChart.Series<Double, Double> seriesRecChart = new XYChart.Series<>();
 
         for (int x = 0; x < numRec; x++){
@@ -94,7 +87,6 @@ public class GUIController implements Initializable {
         }
 
         // loopChart
-        //System.out.println("Initializing Loop Algorithm Chart");
         System.out.print("\n");
         XYChart.Series<Double, Double> seriesLoopChart = new XYChart.Series<>();
 
@@ -113,7 +105,6 @@ public class GUIController implements Initializable {
         }
 
         // matChart
-        //System.out.println("Initializing Matrix Exponentiation Algorithm Chart");
         System.out.print("\n");
         XYChart.Series<Double, Double> seriesMatChart = new XYChart.Series<>();
 
@@ -131,6 +122,7 @@ public class GUIController implements Initializable {
             seriesMatChart.getData().add(new XYChart.Data<>((double) (x), (double) timeTotal));
         }
 
+        // set linecharts
         loopChart.getData().add(seriesLoopChart);
         recChart.getData().add(seriesRecChart);
         matChart.getData().add(seriesMatChart);
