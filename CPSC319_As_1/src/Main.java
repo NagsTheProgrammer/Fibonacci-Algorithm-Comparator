@@ -17,7 +17,6 @@ public class Main extends Application{
         System.out.println("Running: Assignment 1 Charts\n");
         FXMLLoader loader = new FXMLLoader();
         Parent root = loader.load(getClass().getResource("Main.fxml"));
-        System.out.println("Connection Established\n");
         primaryStage.setTitle("Assignment 1 Algorithm Chart Display");
         primaryStage.setScene(new Scene(root, 1200, 443));
         primaryStage.show();
@@ -155,6 +154,8 @@ public class Main extends Application{
     /*
      * runRecAlg runs the recursive algorithm to produce a Fibonacci value
      *
+     * reference webpage used: https://stackoverflow.com/questions/8965006/java-recursive-fibonacci-sequence
+     *
      * @param num    the number of iterations
      * @return the long of the Fibonacci sequence at the sequence specified
      */
@@ -169,6 +170,8 @@ public class Main extends Application{
 
     /*
      * runLoopAlg runs the loop algorithm to produce a Fibonacci value
+     *
+     * reference webpage used: https://beginnersbook.com/2017/09/java-program-to-display-fibonacci-series-using-loops/
      *
      * @param num    the number of iterations
      * @return the double of the Fibonacci sequence at the sequence specified
@@ -190,6 +193,8 @@ public class Main extends Application{
     /*
      * Fibonacci runs the matrix exponentiation algorithm to produce a Fibonacci value
      *
+     * reference used: Costa Sousa, M. (2019). asgmt #1 - Comparing Algorithms. Calgary: University of Calgary, p.1.
+     *
      * @param n  the sequence to which to return a value
      * @return the double of the Fibonacci sequence at the sequence specified
      */
@@ -205,6 +210,8 @@ public class Main extends Application{
 
     /*
      * MatrixPower produces a matrix to return the Fibonacci sequence value
+     *
+     * reference used: Costa Sousa, M. (2019). asgmt #1 - Comparing Algorithms. Calgary: University of Calgary, p.1.
      *
      * @param n  the sequence to which to return a value
      * @param FM reference to the matrix to which to use as input and as return value
